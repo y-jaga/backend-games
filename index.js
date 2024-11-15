@@ -1,11 +1,27 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+
 const PORT = 3000;
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use(helmet());
+
+// Set specific CSP rules
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", 'https://vercel.live', 'https://apis.google.com'],
+      // Add other necessary directives based on your resources
+    },
+  })
+);
+
 
 const games = [
     {
